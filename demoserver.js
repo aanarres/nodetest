@@ -55,6 +55,10 @@ var server = http.createServer(function(request, response) {
 	});
 }).listen(8008, '127.0.0.1', function() {
 	randomFunc();
+	
+	// use our new String outside its defining function:
+	var myStr = "Amsterdam is a beautiful city in Northern Europe.";
+	console.log(String.prototype.fromString.apply(myStr, [myStr])); // call it with an array
 }); // begin accepting connections
 
 function randomFunc() {
@@ -65,4 +69,7 @@ function randomFunc() {
 	
 	var myStr = "Amsterdam is a city in Northern Europe.";
 	console.log(myStr.fromString(myStr));
+	
+	// calls via reflection ftw
+	console.log(String.prototype.fromString.call(myStr, myStr)); // with an object
 }
