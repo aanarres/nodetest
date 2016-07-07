@@ -6,6 +6,8 @@
 var http = require ('http');
 
 var echo_server = http.createServer(function(request, response) {
+	// echo when request is GET and URL is /echo
+	if (request.method === 'GET' && request.url === '/echo') {
 	// initialize body as an array
 	var body = [];
 	
@@ -17,6 +19,10 @@ var echo_server = http.createServer(function(request, response) {
 		body = Buffer.concat(body).toString();
 		response.end(body); // send body
 	});
+	} else {
+		response.statusCode = 404;
+		response.end();
+	}
 });
 
 // start me up
