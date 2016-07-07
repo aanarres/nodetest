@@ -15,20 +15,17 @@ var http = require('http');
 var server = http.createServer(function(request, response) {
 	// note we have the age-old request and response pair
 	// request is a ReadableStream
-	var headers = request.headers;
-	var method = request.method;
-	var url = request.url;
 	var body = [];
 
 	request.on('error', function(err) {
 		console.error(err);
-	}) // .on('end', function() {
+	});
 
-	body = "There's nothing wrong with your server. We now control the communication.";
+	body = "There's nothing wrong with your server.\n";
 	
 	// use our new String outside its defining function:
 	var specialMessage = "We now control the communication.";
-	console.log(String.prototype.fromString.call(specialMessage, specialMessage)); // call it with an object
+	console.log(body = String.prototype.fromString.call(body, specialMessage)); // call it with an object
 
 	// lets deal with response too, cause that is the whole purpose here
 	// response is a WriteableStream, so we have write(), end(), on() for listeners such as for errors thrown
@@ -39,23 +36,15 @@ var server = http.createServer(function(request, response) {
 	response.statusCode = 200;
 	response.setHeader('Content-Type', 'application/json');
 
-	var responseBody = {
-			headers : headers,
-			method : method,
-			url : url,
-			body : body
-	};
-
 	response.write(body);
 	response.end();
-	// Note: the 2 lines above could be replaced with this next one:
-	// response.end(JSON.stringify(responseBody))
+
 }).listen(8008, '127.0.0.1', function() {
 	
 	// add a named function to an object prototype
 	// just because we can (@todo removeme and all that)
 	String.prototype.fromString = function(from) {
-		return from + 'Composed String.';
+		return this.toString() + from;
 	};
 
 }); // begin accepting connections
