@@ -6,9 +6,13 @@ var http = require('http');
 
 // in the following, the server returned by createServer is an EventEmitter
 // we attach a function that is executed every request directly or separately
-var server = http.createServer();
-// this EventEmitter takes a listener
-server.on('request', function(request, response) {
+// separately:
+// var server = http.createServer(); // this EventEmitter takes a listener
+// server.on('request', function(request, response) {
+
+// directly:
+// giving the EventEmitter a listener on each request
+var server = http.createServer(function(request, response) {
   // note we have the age-old request and response pair
   var headers = request.headers;
   var method = request.method;
@@ -42,4 +46,4 @@ server.on('request', function(request, response) {
     // Note: the 2 lines above could be replaced with this next one:
     // response.end(JSON.stringify(responseBody))
   });
-}).listen(8008);
+}).listen(8008); // begin accepting connections
