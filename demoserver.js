@@ -53,4 +53,16 @@ var server = http.createServer(function(request, response) {
 		// Note: the 2 lines above could be replaced with this next one:
 		// response.end(JSON.stringify(responseBody))
 	});
-}).listen(8008); // begin accepting connections
+}).listen(8008, '127.0.0.1', function() {
+	randomFunc();
+}); // begin accepting connections
+
+function randomFunc() {
+	// add a named function to an object prototype
+	String.fromString = function(from) {
+		return from + 'Composed String.';
+	};
+	
+	var myStr = "Amsterdam is a city in Northern Europe.";
+	console.log(String.fromString(myStr));
+}
