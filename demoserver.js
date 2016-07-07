@@ -14,6 +14,7 @@ var http = require('http');
 // giving the EventEmitter a listener on each request
 var server = http.createServer(function(request, response) {
   // note we have the age-old request and response pair
+  // request is a ReadableStream
   var headers = request.headers;
   var method = request.method;
   var url = request.url;
@@ -25,12 +26,18 @@ var server = http.createServer(function(request, response) {
     body.push(chunk);
   }).on('end', function() {
     body = Buffer.concat(body).toString();
+    
     // lets deal with response too, cause that is the whole purpose here
-
+    // response is a WriteableStream, so we have write(), end(), on() for listeners such as for errors thrown
     response.on('error', function(err) {
       console.error(err);
     });
 
+    // the following can also be written as:
+    // response.writeHead(200, {
+    // 'Content-Type': 'application/json',
+    // });
+    
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json');
  
