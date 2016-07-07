@@ -3,7 +3,9 @@
  * Playing with node, from https://nodejs.org/en/docs/
  */
 
-var http = require ('http');
+const http = require ('http');
+const hostname = '127.0.0.1';
+const port = '8008';
 
 var echo_server = http.createServer(function(request, response) {
 	// Error handling: register listener to handle errors in request stream
@@ -19,12 +21,14 @@ var echo_server = http.createServer(function(request, response) {
 	});
 	
 	// echo when request is GET and URL is /echo
+	console.log('Checking request...' + request.method + ' ' + request.url);
 	if (request.method === 'GET' && request.url === '/echo') {
 	// initialize body as an array
 	var body = [];
 	
 	request.on('data', function(chunk) {
 		// listener on 'data' coming in
+		console.log('data coming in...' + chunk);
 		body.push(chunk);
 	}).on('end', function() {
 		// listener on 'end' of input stream
@@ -38,4 +42,6 @@ var echo_server = http.createServer(function(request, response) {
 });
 
 // start me up
-echo_server.listen(8008);
+echo_server.listen(port, hostname, function() {
+	console.log('Server running at http://' + hostname + ':' + port);
+});
