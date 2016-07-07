@@ -59,10 +59,10 @@ var server = http.createServer(function(request, response) {
 
 function randomFunc() {
 	// add a named function to an object prototype
-	String.fromString = function(from) {
+	String.prototype.fromString = function(from) {
 		return from + 'Composed String.';
 	};
 	
 	var myStr = "Amsterdam is a city in Northern Europe.";
-	console.log(String.fromString(myStr));
+	console.log(myStr.fromString(myStr));
 }
